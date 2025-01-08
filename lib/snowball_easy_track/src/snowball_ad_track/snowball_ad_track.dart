@@ -1,6 +1,14 @@
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ThAdTrack {
+import '../../../src/snowball_analytics.dart';
+import 'ad_track_class.dart';
+import 'ad_track_enum.dart';
+
+export 'ad_track_class.dart';
+export 'ad_track_enum.dart';
+
+class SnowballAdTrack {
   static late SharedPreferences _prefs;
 
   static bool _initialized = false;
@@ -14,13 +22,20 @@ class ThAdTrack {
   static double revenueEstimateThreshold = 0.01;
   static double totalRevenueThreshold = 0.01;
 
+  static final Logger logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 0,
+      printEmojis: false,
+    ),
+  );
+
   static void _log(dynamic msg) {
-    logger.i('📺 Th ad easytrack:$msg');
+    logger.i('📺Snowball Ad Easy Track:$msg');
   }
 
   static void basicLog(String key, Map<String, dynamic> value) {
     _log('$key: $value');
-    ThAnalyticsLib.logEvent(name: key, parameters: value);
+    SnowballAnalytics().logEvent(name: key, parameters: value);
   }
 
   static Future<void> _onRevenueEvent(double revenue) async {
@@ -28,9 +43,9 @@ class ThAdTrack {
       if (!_initialized) {
         await _initPrefs();
       }
-      String eventKey = EventAdKey.th_revenue.name;
-      String storeKey = '${eventKey}_key';
-      double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
+      final String eventKey = EventAdKey.th_revenue.name;
+      final String storeKey = '${eventKey}_key';
+      final double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
       if (revenueDouble < revenueThreshold) {
         _prefs.setDouble(storeKey, revenueDouble);
         return;
@@ -51,9 +66,9 @@ class ThAdTrack {
       if (!_initialized) {
         await _initPrefs();
       }
-      String eventKey = EventAdKey.th_revenue_estimate.name;
-      String storeKey = '${eventKey}_key';
-      double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
+      final String eventKey = EventAdKey.th_revenue_estimate.name;
+      final String storeKey = '${eventKey}_key';
+      final double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
       if (revenueDouble < revenueEstimateThreshold) {
         _prefs.setDouble(storeKey, revenueDouble);
         return;
@@ -74,9 +89,9 @@ class ThAdTrack {
       if (!_initialized) {
         await _initPrefs();
       }
-      String eventKey = EventAdKey.Total_Ads_Revenue_001.name;
-      String storeKey = '${eventKey}_key';
-      double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
+      final String eventKey = EventAdKey.Total_Ads_Revenue_001.name;
+      final String storeKey = '${eventKey}_key';
+      final double revenueDouble = (_prefs.getDouble(storeKey) ?? 0) + revenue;
       if (revenueDouble < totalRevenueThreshold) {
         _prefs.setDouble(storeKey, revenueDouble);
         return;

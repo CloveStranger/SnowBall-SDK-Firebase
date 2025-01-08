@@ -1,10 +1,4 @@
 class PushTrackInfo {
-  String timezone;
-  String country;
-  String language;
-  String localeId;
-  bool isPro;
-
   PushTrackInfo({
     required this.timezone,
     required this.country,
@@ -13,8 +7,14 @@ class PushTrackInfo {
     required this.isPro,
   });
 
+  String timezone;
+  String country;
+  String language;
+  String localeId;
+  bool isPro;
+
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'timezone': timezone,
       'country': country,
       'language': language,
@@ -24,7 +24,7 @@ class PushTrackInfo {
   }
 
   Map<String, dynamic> toEventJson() {
-    return {
+    return <String, dynamic>{
       'timezone_label': timezone,
       'country': country,
       'language': language,

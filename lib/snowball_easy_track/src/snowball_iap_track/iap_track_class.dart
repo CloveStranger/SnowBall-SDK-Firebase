@@ -1,14 +1,14 @@
 class IapBeginInfo {
-  final String scene;
-  final String skuId;
-
   const IapBeginInfo({
     required this.scene,
     required this.skuId,
   });
 
+  final String scene;
+  final String skuId;
+
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'scene': scene,
       'skuId': skuId,
     };
@@ -16,27 +16,20 @@ class IapBeginInfo {
 }
 
 class IapSuccessInfo {
-  final String scene;
-
   const IapSuccessInfo({
     required this.scene,
   });
 
+  final String scene;
+
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'scene': scene,
     };
   }
 }
 
 class IapTrackInfo {
-  final String currency;
-  final double value;
-  final String type;
-  final bool isFreeTrial;
-  final String productId;
-  final String? freeTrailPeriod;
-
   IapTrackInfo({
     required this.currency,
     required this.value,
@@ -46,8 +39,15 @@ class IapTrackInfo {
     this.freeTrailPeriod,
   });
 
+  final String currency;
+  final double value;
+  final String type;
+  final bool isFreeTrial;
+  final String productId;
+  final String? freeTrailPeriod;
+
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> params = {
+    final Map<String, dynamic> params = <String, dynamic>{
       'currency': currency,
       'value': value,
       'type': type,
@@ -62,6 +62,14 @@ class IapTrackInfo {
 }
 
 class IapFailedInfo {
+  const IapFailedInfo({
+    required this.scene,
+    this.code,
+    this.message,
+    this.detail,
+    required this.reason,
+  });
+
   final String scene;
 
   final String? code;
@@ -72,16 +80,8 @@ class IapFailedInfo {
 
   final String reason;
 
-  const IapFailedInfo({
-    required this.scene,
-    this.code,
-    this.message,
-    this.detail,
-    required this.reason,
-  });
-
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'scene': scene,
       'code': code,
       'message': message,

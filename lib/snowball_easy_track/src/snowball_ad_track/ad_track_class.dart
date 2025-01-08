@@ -1,6 +1,21 @@
-import 'th_ad_track_enum.dart';
+import 'ad_track_enum.dart';
 
 class ILRDInfo {
+  ILRDInfo({
+    required this.mediation,
+    required this.revenueFrom,
+    required this.impRecordId,
+    required this.countryCode,
+    required this.networkName,
+    required this.adUnitId,
+    required this.adType,
+    required this.currency,
+    required this.revenue,
+    required this.revenuePrecision,
+    required this.scene,
+    this.thirdPartyAdPlacementId,
+  });
+
   final String mediation; // max, admob, self
   final String
       revenueFrom; // impression revenue provider, "applovin_max_ilrd, admob_pingback, self"
@@ -18,21 +33,6 @@ class ILRDInfo {
   final double revenue;
   final String revenuePrecision;
   final String scene;
-
-  ILRDInfo({
-    required this.mediation,
-    required this.revenueFrom,
-    required this.impRecordId,
-    required this.countryCode,
-    required this.networkName,
-    required this.adUnitId,
-    required this.adType,
-    required this.currency,
-    required this.revenue,
-    required this.revenuePrecision,
-    required this.scene,
-    this.thirdPartyAdPlacementId,
-  });
 
   Map<String, dynamic> toJSON() {
     return {

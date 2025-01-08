@@ -1,13 +1,27 @@
-import 'package:flutter_th_common_firebase/flutter_th_common_firebase.dart';
+import 'package:logger/logger.dart';
+
+import '../../../src/snowball_analytics.dart';
+import 'iap_track_class.dart';
+import 'iap_track_enum.dart';
+
+export 'iap_track_class.dart';
+export 'iap_track_enum.dart';
 
 class ThIapTrack {
+  static final Logger logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 0,
+      printEmojis: false,
+    ),
+  );
+
   static void _log(dynamic msg) {
-    logger.i('🛒 Th iap easytrack:$msg');
+    logger.i('🛒Snowball Iap Easy Track:$msg');
   }
 
   static void basicLog(String key, Map<String, dynamic> value) {
     _log('$key: $value');
-    ThAnalyticsLib.logEvent(name: key, parameters: value);
+    SnowballAnalytics().logEvent(name: key, parameters: value);
   }
 
   static void iapBeginLog(IapBeginInfo iapBeginInfo) {
