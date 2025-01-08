@@ -91,11 +91,12 @@ class SnowballMessaging {
   }
 
   Future<String?> getUserFcmToken() async {
-    if (await handleRequestPermission() == AuthorizationStatus.authorized) {
+    if (await handleCheckPermission() == AuthorizationStatus.authorized) {
       return firebaseMessaging.getToken();
     }
-    final DateTime lastTime =
-        DateTime.fromMillisecondsSinceEpoch(lastGetTokenTime);
+    final DateTime lastTime = DateTime.fromMillisecondsSinceEpoch(
+      lastGetTokenTime,
+    );
     final bool timeCheck = DateTime.now().difference(lastTime).inDays > 7;
     if (lastGetTokenTime == -1 || timeCheck) {
       lastGetTokenTime = DateTime.now().millisecondsSinceEpoch;
@@ -133,6 +134,11 @@ class SnowballMessaging {
       }
     }
     _prefs.setStringList(_topicStoreKey, pushTopicKeys);
+  }
+
+  Future<AuthorizationStatus> handleCheckPermission() async {
+    return (await firebaseMessaging.getNotificationSettings())
+        .authorizationStatus;
   }
 
   Future<AuthorizationStatus> handleRequestPermission() async {
