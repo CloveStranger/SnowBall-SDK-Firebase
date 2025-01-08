@@ -30,14 +30,15 @@ class SnowballAnalytics {
       analyticsStorageConsentGranted: true,
       adStorageConsentGranted: true,
     );
+    _logInfo('Firebase Analytics initialized with consent granted.');
   }
 
   void _logInfo(dynamic message) {
     logger.i('$_prefix$message');
   }
 
-  void _logError(dynamic message) {
-    logger.e('$_prefix$message');
+  void _logError(String message, [Object? error, StackTrace? stackTrace]) {
+    logger.e('$_prefix$message', error: error, stackTrace: stackTrace);
   }
 
   Future<void> logEvent({
@@ -46,24 +47,23 @@ class SnowballAnalytics {
   }) async {
     try {
       _logInfo('Sending event: $name, Parameters: $parameters');
+      final Map<String, Object>? formatParams = parameters?.map(
+        (String key, dynamic value) {
+          final dynamic formatValue =
+              (value is num || value is String) ? value : value.toString();
+          return MapEntry<String, Object>(
+            key,
+            formatValue is Object ? formatValue : formatValue.toString(),
+          );
+        },
+      );
       await FirebaseAnalytics.instance.logEvent(
         name: name,
-        parameters: parameters?.map(
-          (String key, dynamic value) {
-            final dynamic formatValue =
-                (value is num || value is String) ? value : value.toString();
-            return MapEntry<String, Object>(
-              key,
-              formatValue is Object ? formatValue : formatValue.toString(),
-            );
-          },
-        ),
+        parameters: formatParams,
       );
       _logInfo('Event sent successfully: $name');
     } catch (e, stackTrace) {
-      _logError('Failed to send event: $name');
-      _logError('Error: $e');
-      _logError('Stack trace: $stackTrace');
+      _logError('Failed to send event: $name', e, stackTrace);
     }
   }
 }
