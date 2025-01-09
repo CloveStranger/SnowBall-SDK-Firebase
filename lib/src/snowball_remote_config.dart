@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 
 import 'snowball_logger.dart';
 
+typedef SnowballRemoteConfigSettings = RemoteConfigSettings;
+
 class SnowballRemoteConfig {
   factory SnowballRemoteConfig() {
     return SnowballRemoteConfig._makeInstance();
@@ -33,8 +35,8 @@ class SnowballRemoteConfig {
 
   Future<void> init({
     Map<String, dynamic>? defaultValue,
-    RemoteConfigSettings? settings,
-    RemoteConfigSettings? debugSettings,
+    SnowballRemoteConfigSettings? settings,
+    SnowballRemoteConfigSettings? debugSettings,
   }) async {
     if (defaultValue != null) {
       await setDefault(defaultValue);
