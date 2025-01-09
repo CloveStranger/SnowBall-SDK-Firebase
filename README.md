@@ -1,4 +1,4 @@
-# snowball_sdk_firebase
+# SnowBall SDK Flutter
 
 A new Flutter plugin project.
 
