@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: https://github.com/CloveStranger/SnowBall-SDK-Firebase
 repository: https://github.com/CloveStranger/SnowBall-SDK-Firebase
 issue_tracker: https://github.com/CloveStranger/SnowBall-SDK-Firebase/issues
-publish_to: none
+publish_to: pub.dev
 
 environment:
   sdk: ^3.5.4
