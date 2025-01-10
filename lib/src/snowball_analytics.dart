@@ -23,7 +23,7 @@ class SnowballAnalytics {
 
   Logger get logger => SnowballLogger.logger;
 
-  final String _prefix = '==> Firebase Analytics Log ';
+  static const String _prefix = '==> Firebase Analytics Log ';
 
   void init() {
     FirebaseAnalytics.instance.setConsent(

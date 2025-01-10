@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
@@ -23,7 +25,7 @@ class SnowballCrashlytics {
 
   Logger get logger => SnowballLogger.logger;
 
-  final String _prefix = '==> Firebase Crashlytics Log ';
+  static const String _prefix = '==> Firebase Crashlytics Log ';
 
   void _logError(String message, [Object? error, StackTrace? stackTrace]) {
     logger.e('$_prefix$message', error: error, stackTrace: stackTrace);
@@ -44,8 +46,11 @@ class SnowballCrashlytics {
     return true;
   }
 
-  void init() {
-    FlutterError.onError = _recordError;
-    PlatformDispatcher.instance.onError = _recordAsyncError;
+  void init({
+    FlutterExceptionHandler? onError,
+    ErrorCallback? onAsyncError,
+  }) {
+    FlutterError.onError = onError ?? _recordError;
+    PlatformDispatcher.instance.onError = onAsyncError ?? _recordAsyncError;
   }
 }

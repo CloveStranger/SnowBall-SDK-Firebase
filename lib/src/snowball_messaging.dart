@@ -35,21 +35,24 @@ class SnowballMessaging {
   static SnowballMessaging get instance => SnowballMessaging._makeInstance();
 
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-  static const String _topicStoreKey = 'snowball_msg_topic_store_key';
-
-  static const String _authReqTimeKey = 'snowball_msg_req_auth_last_time';
-
-  Logger get logger => SnowballLogger.logger;
-
+  final Logger _logger = SnowballLogger.logger;
   final String _prefix = '==> Firebase Messaging Log ';
 
+  static const String _topicStoreKey = 'snowball_msg_topic_store_key';
+  static const String _authReqTimeKey = 'snowball_msg_req_auth_last_time';
+
+  final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
+
+  List<String> pushTopicKeys = <String>[];
+
+  int lastGetTokenTime = -1;
+
   void _logInfo(dynamic message) {
-    logger.i('$_prefix$message');
+    _logger.i('$_prefix$message');
   }
 
   void _logError(String message, [Object? error, StackTrace? stackTrace]) {
-    logger.e('$_prefix$message', error: error, stackTrace: stackTrace);
+    _logger.e('$_prefix$message', error: error, stackTrace: stackTrace);
   }
 
   @pragma('vm:entry-point')
@@ -57,12 +60,6 @@ class SnowballMessaging {
     _logInfo('Background Get $message');
     _fcmCallback?.onBackgroundReceive?.call(message);
   }
-
-  final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
-
-  List<String> pushTopicKeys = <String>[];
-
-  int lastGetTokenTime = -1;
 
   Future<void> _initPrefs() async {
     pushTopicKeys.addAll(
